@@ -1,6 +1,6 @@
-var calculateGrade = function(students)
+function calculateGrade(students)
 {
-    const result1 = [];
+    const result = [];
     for(const student of students)
     {
         let sum = 0;
@@ -13,15 +13,15 @@ var calculateGrade = function(students)
         if(average >= 90) grade = "A";
         else if(average >= 80) grade = "B";
         else if(average >= 70) grade = "C";
-        else if(average < 70) grade = "F";
-        result1.push({
+        else grade = "F";
+        result.push({
             name: student.name,
             scores: student.scores,
             average: Number(average.toFixed(2)),
             grade: grade
         })
     }
-    return result1;
+    return result;
     
 }
 const students = [
@@ -33,24 +33,24 @@ console.log(calculateGrade(students));
 
 
 
-var filterProducts = (products, filters) =>
+const filterProducts = (products, filters) =>
 {
-    const result2 = [];
+    const result = [];
     if(!filters) return products;
     for(const product of products)
     {
         let flag = true;
-        if(filters.maxPrice)
+        if(!!filters.maxPrice) //if(filters.maxPrice) вернет false если maxPrice = 0, хотя 0 - валидное значение цены.
         {
             if(product.price > filters.maxPrice) flag = false;
         }
-        if(filters.category)
+        if(!!filters.category)
         {
-            if(product.category != filters.category) flag = false;
+            if(product.category !== filters.category) flag = false; //Строгое сравнение !== не делает неявных преобразований типов, что предотвращает скрытые баги.
         }
         if(flag)
         {
-            result2.push({
+            result.push({
             name: product.name,
             price: product.price,
             category: product.category
@@ -58,7 +58,7 @@ var filterProducts = (products, filters) =>
         }
     }
    
-    return result2;
+    return result;
 }
 const products = [
     { name: "Ноутбук", price: 50000, category: "электроника" },
